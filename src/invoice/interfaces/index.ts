@@ -1,2 +1,2 @@
-export { Product } from './product.interface';
+export { InvoiceDetail } from './invoice-detail.interface';
 export { Invoice } from './invoice.interface';

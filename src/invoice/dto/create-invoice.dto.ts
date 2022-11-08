@@ -6,7 +6,7 @@ import {
   IsUUID,
 } from 'class-validator';
 import { v4 as uuid } from 'uuid';
-import { Product } from '../interfaces';
+import { InvoiceDetailDto } from './invoice-detail.dto';
 
 export class CreateInvoiceDto {
   @IsUUID()
@@ -19,5 +19,5 @@ export class CreateInvoiceDto {
 
   @IsArray()
   @IsNotEmpty()
-  products: Product[];
+  products: InvoiceDetailDto[];
 }

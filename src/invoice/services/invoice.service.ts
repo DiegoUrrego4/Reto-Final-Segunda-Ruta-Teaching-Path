@@ -3,6 +3,7 @@ import { CreateInvoiceDto } from '../dto/create-invoice.dto';
 import { UpdateInvoiceDto } from '../dto/update-invoice.dto';
 import { Invoice } from '../interfaces';
 import { v4 as uuid } from 'uuid';
+import { InvoiceDetailDto } from '../dto/invoice-detail.dto';
 
 @Injectable()
 export class InvoiceService {
@@ -18,6 +19,7 @@ export class InvoiceService {
           name: 'Leche',
           price: 5300,
           brand: 'Parmalat',
+          quantity: 6,
         },
       ],
     },
@@ -32,18 +34,21 @@ export class InvoiceService {
           name: 'Café',
           price: 8100,
           brand: 'Sello Rojo',
+          quantity: 1,
         },
         {
           id: uuid(),
           name: 'Salchichón',
           price: 17000,
           brand: 'Ranchera',
+          quantity: 2,
         },
         {
           id: uuid(),
           name: 'Pan Tajado',
           price: 12000,
           brand: 'Artesano',
+          quantity: 1,
         },
       ],
     },
@@ -58,6 +63,7 @@ export class InvoiceService {
           name: 'Gaseosa',
           price: 8000,
           brand: 'Coca Cola',
+          quantity: 12,
         },
       ],
     },
