@@ -3,7 +3,6 @@ import { CreateInvoiceDto } from '../dto/create-invoice.dto';
 import { UpdateInvoiceDto } from '../dto/update-invoice.dto';
 import { Invoice } from '../interfaces';
 import { v4 as uuid } from 'uuid';
-import { InvoiceDetailDto } from '../dto/invoice-detail.dto';
 
 @Injectable()
 export class InvoiceService {
