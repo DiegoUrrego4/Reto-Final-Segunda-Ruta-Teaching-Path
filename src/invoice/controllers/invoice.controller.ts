@@ -1,42 +1,42 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { InvoiceService } from '../services/invoice.service';
+import { CreateInvoiceDto } from '../dto/create-invoice.dto';
+import { UpdateInvoiceDto } from '../dto/update-invoice.dto';
 
 @Controller('invoice')
 export class InvoiceController {
-  constructor(private invoiceService: InvoiceService) {}
+  constructor(private readonly invoiceService: InvoiceService) {}
+
+  @Post()
+  create(@Body() createInvoiceDto: CreateInvoiceDto) {
+    return this.invoiceService.create(createInvoiceDto);
+  }
 
   @Get()
-  getInvoices() {
+  findAll() {
     return this.invoiceService.findAll();
   }
+
   @Get(':id')
-  getInvoice(@Param('id') id: string) {
-    return this.invoiceService.findOneById(id);
+  findOne(@Param('id') id: string) {
+    return this.invoiceService.findOne(id);
   }
 
-  //   @Post()
-  //   createUser(@Body() createCustomerDto: CreateCustomerDto): Customer {
-  //     return this.customerService.create(createCustomerDto);
-  //   }
+  @Patch(':id')
+  update(@Param('id') id: string, @Body() updateInvoiceDto: UpdateInvoiceDto) {
+    return this.invoiceService.update(id, updateInvoiceDto);
+  }
 
-  //   @Put(':id')
-  //   updateUser(
-  //     @Param('id') id: string,
-  //     @Body() createCustomerDto: CreateCustomerDto,
-  //   ): Customer {
-  //     return this.customerService.update(id, createCustomerDto);
-  //   }
-
-  //   @Patch(':id')
-  //   partiallyUpdateUser(
-  //     @Param('id') id: string,
-  //     @Body() updateCustomerDto: UpdateCustomerDto,
-  //   ): Customer {
-  //     return this.customerService.partiallyUpdate(id, updateCustomerDto);
-  //   }
-
-  //   @Delete(':id')
-  //   deleteUser(@Param('id') id: string): void {
-  //     this.customerService.delete(id);
-  //   }
+  @Delete(':id')
+  remove(@Param('id') id: string) {
+    return this.invoiceService.remove(id);
+  }
 }

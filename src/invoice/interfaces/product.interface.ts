@@ -1,7 +1,6 @@
 export interface Product {
-  id?: string;
-  invoiceId?: string;
-  nombre?: string;
-  marca?: string;
-  valor?: number;
+  id: string;
+  name: string;
+  price: number;
+  brand?: string;
 }

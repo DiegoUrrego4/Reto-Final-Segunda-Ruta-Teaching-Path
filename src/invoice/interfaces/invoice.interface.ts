@@ -1,9 +1,10 @@
+import { Product } from './product.interface';
+
 export interface Invoice {
-  id?: string;
-  customerId: string;
+  id: string;
+  customerId?: string;
+  generateAt: number;
   nit: string;
-  fecha?: string;
-  total: number;
-  formaPago: number;
-  productos: number;
+  updatedAt?: number;
+  products: Product[];
 }
