@@ -63,7 +63,6 @@ export class InvoiceService {
     },
   ];
   create(createInvoiceDto: CreateInvoiceDto) {
-    // const { nit, customerId, products } = createInvoiceDto;
     const invoice: Invoice = {
       id: uuid(),
       generateAt: new Date().getTime(),
@@ -85,10 +84,19 @@ export class InvoiceService {
   }
 
   update(id: string, updateInvoiceDto: UpdateInvoiceDto) {
-    return `This action updates a #${id} invoice`;
+    let existedInvoice = this.findOne(id);
+    this.invoices = this.invoices.map((invoice) => {
+      if (invoice.id === id) {
+        existedInvoice.updatedAt = new Date().getTime();
+        existedInvoice = { ...existedInvoice, ...updateInvoiceDto };
+        return existedInvoice;
+      }
+      return invoice;
+    });
+    return existedInvoice;
   }
 
   remove(id: string) {
-    return `This action removes a #${id} invoice`;
+    this.invoices = this.invoices.filter((invoice) => invoice.id !== id);
   }
 }
