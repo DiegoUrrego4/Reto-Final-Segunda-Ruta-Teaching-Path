@@ -1,29 +1,14 @@
-import {
-  IsNumber,
-  IsOptional,
-  IsString,
-  IsUUID,
-  MinLength,
-} from 'class-validator';
-import { v4 as uuid } from 'uuid';
-import { InvoiceDetail } from '../interfaces';
+import { IsNotEmpty, IsNumber, IsString, MinLength } from 'class-validator';
 
-export class InvoiceDetailDto implements InvoiceDetail {
-  @IsUUID()
-  @IsOptional()
-  id?: string = uuid();
-
+export class InvoiceDetailDto {
   @IsString()
+  @IsNotEmpty()
   @MinLength(1)
-  name: string;
+  readonly name: string;
 
   @IsNumber()
-  price: number;
-
-  @IsString()
-  @IsOptional()
-  brand?: string;
+  readonly price: number;
 
   @IsNumber()
-  quantity: number;
+  readonly quantity: number;
 }

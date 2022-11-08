@@ -1,4 +1,4 @@
-import { InvoiceDetailDto } from '../dto/invoice-detail.dto';
+import { InvoiceDetail } from './invoice-detail.interface';
 
 export interface Invoice {
   id: string;
@@ -6,5 +6,5 @@ export interface Invoice {
   generateAt: number;
   nit: string;
   updatedAt?: number;
-  products: InvoiceDetailDto[];
+  products: InvoiceDetail[];
 }

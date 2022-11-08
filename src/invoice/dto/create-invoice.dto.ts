@@ -11,13 +11,13 @@ import { InvoiceDetailDto } from './invoice-detail.dto';
 export class CreateInvoiceDto {
   @IsUUID()
   @IsOptional()
-  customerId?: string = uuid();
+  readonly customerId?: string = uuid();
 
   @IsString()
   @IsNotEmpty()
-  nit: string;
+  readonly nit: string;
 
   @IsArray()
   @IsNotEmpty()
-  products: InvoiceDetailDto[];
+  readonly products: InvoiceDetailDto[];
 }
