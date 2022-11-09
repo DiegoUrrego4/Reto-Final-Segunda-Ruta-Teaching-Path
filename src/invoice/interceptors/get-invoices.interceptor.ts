@@ -7,7 +7,6 @@ import {
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Invoice } from '../interfaces';
-import { InvoiceDetail } from '../interfaces';
 
 @Injectable()
 export class OutBrandGet implements NestInterceptor {
