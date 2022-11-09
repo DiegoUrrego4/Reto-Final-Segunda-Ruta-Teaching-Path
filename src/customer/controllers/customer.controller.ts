@@ -4,6 +4,7 @@ import {
   Delete,
   Get,
   Param,
+  ParseUUIDPipe,
   Patch,
   Post,
   Put,
@@ -23,7 +24,7 @@ export class CustomerController {
   }
 
   @Get(':id')
-  getCustomer(@Param('id') id: string) {
+  getCustomer(@Param('id', ParseUUIDPipe) id: string) {
     return this.customerService.findOneById(id);
   }
 
@@ -34,7 +35,7 @@ export class CustomerController {
 
   @Put(':id')
   updateUser(
-    @Param('id') id: string,
+    @Param('id', ParseUUIDPipe) id: string,
     @Body() createCustomerDto: CreateCustomerDto,
   ): Customer {
     return this.customerService.update(id, createCustomerDto);
@@ -42,14 +43,14 @@ export class CustomerController {
 
   @Patch(':id')
   partiallyUpdateUser(
-    @Param('id') id: string,
+    @Param('id', ParseUUIDPipe) id: string,
     @Body() updateCustomerDto: UpdateCustomerDto,
   ): Customer {
     return this.customerService.partiallyUpdate(id, updateCustomerDto);
   }
 
   @Delete(':id')
-  deleteUser(@Param('id') id: string): void {
+  deleteUser(@Param('id', ParseUUIDPipe) id: string): void {
     this.customerService.delete(id);
   }
 }
