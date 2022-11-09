@@ -17,7 +17,6 @@ export class InvoiceService {
           id: uuid(),
           name: 'Leche',
           price: 5300,
-          brand: 'Parmalat',
           quantity: 6,
         },
       ],

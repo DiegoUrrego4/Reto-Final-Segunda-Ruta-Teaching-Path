@@ -2,6 +2,6 @@ export interface InvoiceDetail {
   id?: string;
   name: string;
   price: number;
-  brand?: string;
+  brand?: string | null;
   quantity: number;
 }

@@ -1,4 +1,10 @@
-import { IsNotEmpty, IsNumber, IsString, MinLength } from 'class-validator';
+import {
+  IsNotEmpty,
+  IsNumber,
+  IsOptional,
+  IsString,
+  MinLength,
+} from 'class-validator';
 
 export class InvoiceDetailDto {
   @IsString()
@@ -8,6 +14,10 @@ export class InvoiceDetailDto {
 
   @IsNumber()
   readonly price: number;
+
+  @IsOptional()
+  @IsString()
+  readonly brand?: string;
 
   @IsNumber()
   readonly quantity: number;
