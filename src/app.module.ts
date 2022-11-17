@@ -5,15 +5,31 @@ import {
   RequestMethod,
 } from '@nestjs/common';
 import { APP_GUARD } from '@nestjs/core';
+import { ConfigModule } from '@nestjs/config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthGuard } from './auth/auth.guard';
 import { CustomerModule } from './customer/customer.module';
 import { InvoiceModule } from './invoice/invoice.module';
 import { RequestMiddleware } from './middlewares/request.middleware';
+import { TypeOrmModule } from '@nestjs/typeorm';
 
 @Module({
-  imports: [CustomerModule, InvoiceModule],
+  imports: [
+    ConfigModule.forRoot(),
+    TypeOrmModule.forRoot({
+      type: 'postgres',
+      host: process.env.DB_HOST,
+      port: 5432,
+      database: process.env.DB_NAME,
+      username: process.env.DB_USERNAME,
+      password: process.env.DB_PASSWORD,
+      autoLoadEntities: true,
+      synchronize: true,
+    }),
+    CustomerModule,
+    InvoiceModule,
+  ],
   controllers: [AppController],
   providers: [
     AppService,

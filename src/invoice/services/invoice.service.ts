@@ -1,106 +1,70 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  InternalServerErrorException,
+  Logger,
+  NotFoundException,
+} from '@nestjs/common';
+import { Repository } from 'typeorm';
 import { CreateInvoiceDto } from '../dto/create-invoice.dto';
 import { UpdateInvoiceDto } from '../dto/update-invoice.dto';
-import { Invoice } from '../interfaces';
-import { v4 as uuid } from 'uuid';
+import { Invoice } from '../entities/invoice.entity';
+import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
 export class InvoiceService {
-  private invoices: Invoice[] = [
-    {
-      id: uuid(),
-      customerId: uuid(),
-      generateAt: new Date().getTime(),
-      nit: '123456789',
-      products: [
-        {
-          id: uuid(),
-          name: 'Leche',
-          price: 5300,
-          quantity: 6,
-        },
-      ],
-    },
-    {
-      id: uuid(),
-      customerId: uuid(),
-      generateAt: new Date().getTime(),
-      nit: '987654321',
-      products: [
-        {
-          id: uuid(),
-          name: 'Café',
-          price: 8100,
-          brand: 'Sello Rojo',
-          quantity: 1,
-        },
-        {
-          id: uuid(),
-          name: 'Salchichón',
-          price: 17000,
-          brand: 'Ranchera',
-          quantity: 2,
-        },
-        {
-          id: uuid(),
-          name: 'Pan Tajado',
-          price: 12000,
-          brand: 'Artesano',
-          quantity: 1,
-        },
-      ],
-    },
-    {
-      id: uuid(),
-      customerId: uuid(),
-      generateAt: new Date().getTime(),
-      nit: '192837456',
-      products: [
-        {
-          id: uuid(),
-          name: 'Gaseosa',
-          price: 8000,
-          brand: 'Coca Cola',
-          quantity: 12,
-        },
-      ],
-    },
-  ];
-  create(createInvoiceDto: CreateInvoiceDto) {
-    const invoice: Invoice = {
-      id: uuid(),
-      generateAt: new Date().getTime(),
-      ...createInvoiceDto,
-    };
-    this.invoices.push(invoice);
-    return invoice;
+  private readonly logger = new Logger('InvoiceService');
+  constructor(
+    @InjectRepository(Invoice)
+    private readonly invoiceRepository: Repository<Invoice>,
+  ) {}
+
+  async create(createInvoiceDto: CreateInvoiceDto) {
+    try {
+      // Acá creo el objeto factura
+      const invoice = this.invoiceRepository.create({
+        ...createInvoiceDto,
+        generateAt: new Date().getTime(),
+      });
+      this.invoiceRepository.save(invoice);
+    } catch (error) {
+      this.handleDBExceptions(error);
+    }
   }
 
-  findAll() {
-    return this.invoices;
-  }
+  // findAll() {
+  //   return this.invoices;
+  // }
 
-  findOne(id: string) {
-    const invoice = this.invoices.find((invoice) => invoice.id === id);
-    if (!invoice)
-      throw new NotFoundException(`No se encontró una factura con id: ${id}`);
-    return invoice;
-  }
+  // findOne(id: string) {
+  //   const invoice = this.invoices.find((invoice) => invoice.id === id);
+  //   if (!invoice)
+  //     throw new NotFoundException(`No se encontró una factura con id: ${id}`);
+  //   return invoice;
+  // }
 
-  update(id: string, updateInvoiceDto: UpdateInvoiceDto) {
-    let existedInvoice = this.findOne(id);
-    this.invoices = this.invoices.map((invoice) => {
-      if (invoice.id === id) {
-        existedInvoice.updatedAt = new Date().getTime();
-        existedInvoice = { ...existedInvoice, ...updateInvoiceDto };
-        return existedInvoice;
-      }
-      return invoice;
-    });
-    return existedInvoice;
-  }
+  // update(id: string, updateInvoiceDto: UpdateInvoiceDto) {
+  //   let existedInvoice = this.findOne(id);
+  //   this.invoices = this.invoices.map((invoice) => {
+  //     if (invoice.id === id) {
+  //       existedInvoice.updatedAt = new Date().getTime();
+  //       existedInvoice = { ...existedInvoice, ...updateInvoiceDto };
+  //       return existedInvoice;
+  //     }
+  //     return invoice;
+  //   });
+  //   return existedInvoice;
+  // }
 
-  remove(id: string) {
-    this.invoices = this.invoices.filter((invoice) => invoice.id !== id);
+  // remove(id: string) {
+  //   this.invoices = this.invoices.filter((invoice) => invoice.id !== id);
+  //
+
+  private handleDBExceptions(error: any) {
+    if (error.code === '23505') throw new BadRequestException(error.detail);
+    this.logger.error(error);
+    throw new InternalServerErrorException(
+      'Unexpected error. Check server logs',
+    );
   }
 }

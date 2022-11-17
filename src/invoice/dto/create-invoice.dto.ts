@@ -5,6 +5,7 @@ import {
   IsOptional,
   IsString,
   IsUUID,
+  MinLength,
   ValidateNested,
 } from 'class-validator';
 import { v4 as uuid } from 'uuid';
@@ -19,9 +20,14 @@ export class CreateInvoiceDto {
   @IsNotEmpty()
   readonly nit: string;
 
-  @IsArray()
+  @IsString()
   @IsNotEmpty()
-  @ValidateNested()
-  @Type(() => InvoiceDetailDto)
-  readonly products: InvoiceDetailDto[];
+  @MinLength(1)
+  readonly storeName: string;
+
+  // @IsArray()
+  // @IsNotEmpty()
+  // @ValidateNested()
+  // @Type(() => InvoiceDetailDto)
+  // readonly products: InvoiceDetailDto[];
 }
