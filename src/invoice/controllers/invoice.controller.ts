@@ -8,7 +8,6 @@ import {
   Delete,
   Put,
   ParseUUIDPipe,
-  UseInterceptors,
 } from '@nestjs/common';
 import { InvoiceService } from '../services/invoice.service';
 import { CreateInvoiceDto } from '../dto/create-invoice.dto';
@@ -23,17 +22,15 @@ export class InvoiceController {
     return this.invoiceService.create(createInvoiceDto);
   }
 
-  // @Get()
-  // @UseInterceptors(OutBrandGet)
-  // findAll() {
-  //   return this.invoiceService.findAll();
-  // }
+  @Get()
+  findAll() {
+    return this.invoiceService.findAll();
+  }
 
-  // @Get(':id')
-  // @UseInterceptors(OutBrandGet)
-  // findOne(@Param('id', ParseUUIDPipe) id: string) {
-  //   return this.invoiceService.findOne(id);
-  // }
+  @Get(':id')
+  findOne(@Param('id', ParseUUIDPipe) id: string) {
+    return this.invoiceService.findOne(id);
+  }
 
   // @Put(':id')
   // updateUser(

@@ -27,21 +27,22 @@ export class InvoiceService {
         generateAt: new Date().getTime(),
       });
       this.invoiceRepository.save(invoice);
+      return invoice;
     } catch (error) {
       this.handleDBExceptions(error);
     }
   }
 
-  // findAll() {
-  //   return this.invoices;
-  // }
+  findAll() {
+    return this.invoiceRepository.find({});
+  }
 
-  // findOne(id: string) {
-  //   const invoice = this.invoices.find((invoice) => invoice.id === id);
-  //   if (!invoice)
-  //     throw new NotFoundException(`No se encontró una factura con id: ${id}`);
-  //   return invoice;
-  // }
+  findOne(id: string) {
+    const invoice = this.invoiceRepository.findOneBy({ id });
+    if (!invoice)
+      throw new NotFoundException(`No se encontró una factura con id: ${id}`);
+    return invoice;
+  }
 
   // update(id: string, updateInvoiceDto: UpdateInvoiceDto) {
   //   let existedInvoice = this.findOne(id);
