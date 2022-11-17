@@ -32,21 +32,21 @@ export class InvoiceController {
     return this.invoiceService.findOne(id);
   }
 
-  // @Put(':id')
-  // updateUser(
-  //   @Param('id', ParseUUIDPipe) id: string,
-  //   @Body() createInvoiceDto: CreateInvoiceDto,
-  // ) {
-  //   return this.invoiceService.update(id, createInvoiceDto);
-  // }
+  @Put(':id')
+  updateUser(
+    @Param('id', ParseUUIDPipe) id: string,
+    @Body() createInvoiceDto: CreateInvoiceDto,
+  ) {
+    return this.invoiceService.update(id, createInvoiceDto);
+  }
 
-  // @Patch(':id')
-  // update(
-  //   @Param('id', ParseUUIDPipe) id: string,
-  //   @Body() updateInvoiceDto: UpdateInvoiceDto,
-  // ) {
-  //   return this.invoiceService.update(id, updateInvoiceDto);
-  // }
+  @Patch(':id')
+  update(
+    @Param('id', ParseUUIDPipe) id: string,
+    @Body() updateInvoiceDto: UpdateInvoiceDto,
+  ) {
+    return this.invoiceService.update(id, updateInvoiceDto);
+  }
 
   @Delete(':id')
   remove(@Param('id', ParseUUIDPipe) id: string) {

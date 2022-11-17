@@ -44,18 +44,21 @@ export class InvoiceService {
     return invoice;
   }
 
-  // update(id: string, updateInvoiceDto: UpdateInvoiceDto) {
-  //   let existedInvoice = this.findOne(id);
-  //   this.invoices = this.invoices.map((invoice) => {
-  //     if (invoice.id === id) {
-  //       existedInvoice.updatedAt = new Date().getTime();
-  //       existedInvoice = { ...existedInvoice, ...updateInvoiceDto };
-  //       return existedInvoice;
-  //     }
-  //     return invoice;
-  //   });
-  //   return existedInvoice;
-  // }
+  async update(id: string, updateInvoiceDto: UpdateInvoiceDto) {
+    const invoice = await this.invoiceRepository.preload({
+      id,
+      updatedAt: new Date().getTime(),
+      ...updateInvoiceDto,
+    });
+    if (!invoice)
+      throw new NotFoundException(`Product with id: ${id} not found`);
+    try {
+      await this.invoiceRepository.save(invoice);
+      return invoice;
+    } catch (error) {
+      this.handleDBExceptions(error);
+    }
+  }
 
   async remove(id: string) {
     const invoice = await this.findOne(id);
