@@ -37,8 +37,8 @@ export class InvoiceService {
     return this.invoiceRepository.find({});
   }
 
-  findOne(id: string) {
-    const invoice = this.invoiceRepository.findOneBy({ id });
+  async findOne(id: string) {
+    const invoice = await this.invoiceRepository.findOneBy({ id });
     if (!invoice)
       throw new NotFoundException(`No se encontró una factura con id: ${id}`);
     return invoice;
@@ -57,9 +57,10 @@ export class InvoiceService {
   //   return existedInvoice;
   // }
 
-  // remove(id: string) {
-  //   this.invoices = this.invoices.filter((invoice) => invoice.id !== id);
-  //
+  async remove(id: string) {
+    const invoice = await this.findOne(id);
+    await this.invoiceRepository.delete(invoice);
+  }
 
   private handleDBExceptions(error: any) {
     if (error.code === '23505') throw new BadRequestException(error.detail);

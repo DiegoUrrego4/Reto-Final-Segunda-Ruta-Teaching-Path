@@ -48,8 +48,8 @@ export class InvoiceController {
   //   return this.invoiceService.update(id, updateInvoiceDto);
   // }
 
-  // @Delete(':id')
-  // remove(@Param('id', ParseUUIDPipe) id: string) {
-  //   return this.invoiceService.remove(id);
-  // }
+  @Delete(':id')
+  remove(@Param('id', ParseUUIDPipe) id: string) {
+    return this.invoiceService.remove(id);
+  }
 }
